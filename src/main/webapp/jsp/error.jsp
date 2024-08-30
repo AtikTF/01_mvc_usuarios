@@ -10,9 +10,9 @@
 <body>
 	<div>
 		<h1>Algo salio mal!!</h1>
-		<p>No se puede insertar el usuario</p>
+		<p>${mensaje}</p>
 		<br><br>
-		<a href="">Regresar</a>
+		<a href="GestionarUsuariosController?ruta=listar">Regresar</a>
 	</div>
 </body>
 </html>

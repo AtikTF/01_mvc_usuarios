@@ -12,7 +12,7 @@
 		<h1>Nuevo Usuario</h1>
 	</div>
 	
-	<form method="POST" action="../GestionarUsuariosController">
+	<form method="POST" action="../GestionarUsuariosController?ruta=guardarNuevo">
 	
 		<!-- <label for="txtId">Id</label> -->
 		<input type="hidden" name="txtId" id="txtId">

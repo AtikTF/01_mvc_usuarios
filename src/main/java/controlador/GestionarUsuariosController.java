@@ -27,15 +27,14 @@ public class GestionarUsuariosController extends HttpServlet {
 
 	private void ruteador(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		String ruta = (req.getParameter("ruta") == null) ? "listar" : req.getParameter("ruta");
+		String ruta = (req.getParameter("ruta") == null)? "listar": req.getParameter("ruta");
 
 		switch (ruta) {
-
-		case "listar":
-			this.listar(req, resp);
-			break;
 		case "nuevo":
 			this.nuevo(req, resp);
+			break;
+		case "listar":
+			this.listar(req, resp);
 			break;
 		case "guardarNuevo":
 			this.guardarNuevo(req, resp);
@@ -65,32 +64,80 @@ public class GestionarUsuariosController extends HttpServlet {
 
 	private void nuevo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 1. Obtener Parametros
+		
 		// 2. Hablar con el modelo
+		
 		// 3. Llamar a la vista
+		resp.sendRedirect("jsp/crearusuario.jsp");
 	}
 
 	private void guardarNuevo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 1. Obtener Parametros
+		String nombre = req.getParameter("txtNombre");
+		String clave = req.getParameter("txtClave");
+		
+		Usuario usuario = new Usuario(0, nombre,clave, false);
+		
 		// 2. Hablar con el modelo
+		boolean resultado = Usuario.create(usuario);
+		
 		// 3. Llamar a la vista
+		if (resultado == true) {
+			resp.sendRedirect("GestionarUsuariosController?ruta=listar");
+		}else {
+			req.setAttribute("mensaje", "No se pudo guardar el usuario nuevo");
+			req.getRequestDispatcher("jsp/error.jsp").forward(req, resp);
+		}
 	}
 
 	private void actualizar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 1. Obtener Parametros
+		int idPersona = Integer.parseInt(req.getParameter("idPersona"));
+		
 		// 2. Hablar con el modelo
+		Usuario persona = Usuario.getUsuarioById(idPersona);
+		
 		// 3. Llamar a la vista
+		req.setAttribute("persona", persona);
+		req.getRequestDispatcher("jsp/actualizarusuario.jsp").forward(req, resp);
 	}
 
 	private void guardarExistente(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		// 1. Obtener Parametros
+		int id = Integer.parseInt(req.getParameter("txtId"));
+		String nombre = req.getParameter("txtNombre");
+		String clave = req.getParameter("txtClave");
+		
+		Usuario usuario = new Usuario(id, nombre, clave, false);
 		// 2. Hablar con el modelo
+		boolean respuesta = Usuario.update(usuario);
+		
 		// 3. Llamar a la vista
+		if ( respuesta == true) {
+			resp.sendRedirect("GestionarUsuariosController?ruta=listar");
+		}else {
+			req.setAttribute("mensaje", "Error al actualizar el usuario");
+			req.getRequestDispatcher("jsp/error.jpp").forward(req, resp);
+		}
+		
 	}
 
 	private void eliminar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 1. Obtener Parametros
-		// 2. Hablar con el modelo
-		// 3. Llamar a la vista
+		int idPersona = Integer.parseInt(req.getParameter("idPersona"));
+	
+		try {
+			// 2. Hablar con el modelo
+			Usuario.delete(idPersona);
+			
+			// 3. Llamar a la vista
+			resp.sendRedirect("GestionarUsuariosController?ruta=listar");
+			
+		} catch (Exception e) {
+			req.setAttribute("mensaje", e.getMessage());
+			req.getRequestDispatcher("jsp/error.jsp").forward(req, resp);
+		}		
+		
 	}
 }

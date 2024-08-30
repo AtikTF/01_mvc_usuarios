@@ -8,16 +8,16 @@
 <title>Actualizar Usuario</title>
 </head>
 <body>
-	<form method="POST" action="../GestionarUsuariosController">
+	<form method="POST" action="GestionarUsuariosController?ruta=guardarExistente">
 	
 		<!-- <label for="txtId">Id</label> -->
-		<input type="hidden" name="txtId" id="txtId">
+		<input type="hidden" name="txtId" id="txtId" value="${persona.id}">
 		
 		<label for="txtNombre">Nombre</label>
-		<input type="text" name="txtNombre" id="txtNombre">
+		<input type="text" name="txtNombre" id="txtNombre" value="${persona.nombre}">
 		
 		<label for="txtClave">Clave</label>
-		<input type="text" name="txtClave" id="txtClave">
+		<input type="text" name="txtClave" id="txtClave" value="${persona.clave}">
 		
 		<br><br>
 		<input type="submit" value="Guardar"/>

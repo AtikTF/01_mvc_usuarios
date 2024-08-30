@@ -80,7 +80,7 @@ public class Usuario implements Serializable{
 		if (usuarios == null) {
 			usuarios = new ArrayList<Usuario>();
 			usuarios.add(new Usuario(1, "Atik", "atik123", true));
-			usuarios.add(new Usuario(1, "Juan", "juan123", true));
+			usuarios.add(new Usuario(2, "Juan", "juan123", false));
 		}
 		return usuarios;
 	}
@@ -99,11 +99,11 @@ public class Usuario implements Serializable{
 	public static Boolean create(Usuario usuario) {
 		int max = 0;
 		for (Usuario usuarioIterado : getUsuario()) {
-			if (max < usuario.getId()) {
-				max = usuario.getId();
+			if (max < usuarioIterado.getId()) {
+				max = usuarioIterado.getId();
 			}
 		}
-		
+		max += 1;
 		usuario.setId(max);
 		getUsuario().add(usuario);
 		
