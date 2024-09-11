@@ -8,7 +8,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import modelo.Usuario;
+import modelo.dao.UsuarioDAO;
+import modelo.entidades.Usuario;
 
 @WebServlet("/AutenticarController")
 public class AutenticarController extends HttpServlet {
@@ -53,7 +54,8 @@ public class AutenticarController extends HttpServlet {
 		String clave = req.getParameter("clave");
 		
 		// 2. Hablar con el modelo
-		Usuario resultado  = Usuario.authenticate(usuario, clave);
+		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		Usuario resultado  = usuarioDAO.authenticate(usuario, clave);
 		
 		// 3. Llamar a la vista
 		if (resultado == null) {

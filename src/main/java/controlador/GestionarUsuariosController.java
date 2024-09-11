@@ -8,7 +8,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import modelo.Usuario;
+import modelo.dao.UsuarioDAO;
+import modelo.entidades.Usuario;
 
 @WebServlet("/GestionarUsuariosController")
 public class GestionarUsuariosController extends HttpServlet {
@@ -55,7 +56,8 @@ public class GestionarUsuariosController extends HttpServlet {
 		// 1. Obtener Parametros
 		
 		// 2. Hablar con el modelo
-		List<Usuario> personas = Usuario.getUsuario();
+		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		List<Usuario> personas = usuarioDAO.getUsuario();
 		
 		// 3. Llamar a la vista
 		req.setAttribute("personas", personas);
@@ -79,7 +81,8 @@ public class GestionarUsuariosController extends HttpServlet {
 		Usuario usuario = new Usuario(0, nombre,clave, false);
 		
 		// 2. Hablar con el modelo
-		boolean resultado = Usuario.create(usuario);
+		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		boolean resultado = usuarioDAO.create(usuario);
 		
 		// 3. Llamar a la vista
 		if (resultado == true) {
@@ -95,7 +98,8 @@ public class GestionarUsuariosController extends HttpServlet {
 		int idPersona = Integer.parseInt(req.getParameter("idPersona"));
 		
 		// 2. Hablar con el modelo
-		Usuario persona = Usuario.getUsuarioById(idPersona);
+		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		Usuario persona = usuarioDAO.getUsuarioById(idPersona);
 		
 		// 3. Llamar a la vista
 		req.setAttribute("persona", persona);
@@ -111,7 +115,8 @@ public class GestionarUsuariosController extends HttpServlet {
 		
 		Usuario usuario = new Usuario(id, nombre, clave, false);
 		// 2. Hablar con el modelo
-		boolean respuesta = Usuario.update(usuario);
+		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		boolean respuesta = usuarioDAO.update(usuario);
 		
 		// 3. Llamar a la vista
 		if ( respuesta == true) {
@@ -129,7 +134,8 @@ public class GestionarUsuariosController extends HttpServlet {
 	
 		try {
 			// 2. Hablar con el modelo
-			Usuario.delete(idPersona);
+			UsuarioDAO usuarioDAO = new UsuarioDAO();
+			usuarioDAO.delete(idPersona);
 			
 			// 3. Llamar a la vista
 			resp.sendRedirect("GestionarUsuariosController?ruta=listar");
